@@ -3,6 +3,7 @@ import { ArrowLeft, Blocks, Sparkles } from "lucide-react";
 
 import AppLayout from "./components/layout/AppLayout";
 import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
 
 const placeholderContent = {
   Modules: {
@@ -62,6 +63,7 @@ function PlaceholderPage({ page }) {
 export default function App() {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route element={<AppLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="modules" element={<PlaceholderPage page="Modules" />} />
