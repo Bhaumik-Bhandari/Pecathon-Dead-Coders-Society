@@ -1,4 +1,3 @@
-
 import { NavLink } from "react-router-dom";
 import {
   Activity,
@@ -43,7 +42,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[252px] flex-col border-r border-[#d9cfc0]/15 bg-[#141F2B] text-white transition-transform duration-300 ease-out ${
+        className={`sidebar-gradient-bg fixed inset-y-0 left-0 z-50 flex w-[252px] flex-col border-r border-[#d9cfc0]/15 text-white transition-transform duration-300 ease-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
@@ -75,7 +74,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
         </div>
 
         {/* Grouped navigation */}
-        <nav aria-label="Main navigation"className="sidebar-nav-scroll flex-1 overflow-y-auto px-4 pt-7">
+        <nav aria-label="Main navigation" className="sidebar-nav-scroll flex-1 overflow-y-auto px-4 pt-7">
           {navigationGroups.map((group) => (
             <section key={group.heading} className="mb-7">
               <h2 className="mb-3 px-3 text-xs font-bold uppercase tracking-[0.18em] text-[#C7AD91]">
@@ -94,7 +93,8 @@ export default function Sidebar({ mobileOpen, onClose }) {
                         isActive
                           ? "nav-link-active border-[#916344]/70 bg-gradient-to-r from-[#643A39] via-[#45323A] to-[#29313A] text-[#FFF0D7] shadow-[0_5px_20px_rgba(217,76,66,0.14)]"
                           : "border-transparent text-slate-400 hover:border-[#98674F]/70 hover:bg-gradient-to-r hover:from-[#663C3A]/90 hover:via-[#49313B]/75 hover:to-[#303641] hover:text-[#FFF0D7] hover:shadow-[0_5px_18px_rgba(217,76,66,0.12)]"
-                      }`}
+                      }`
+                    }
                   >
                     <span className="nav-link-glint" aria-hidden="true" />
 
@@ -122,9 +122,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
                       className="nav-link-content shrink-0 transition-all duration-200 group-hover:scale-110 group-hover:text-[#F3BF76]"
                     />
 
-                    <span className="nav-link-content flex-1">
-                      {label}
-                    </span>
+                    <span className="nav-link-content flex-1">{label}</span>
 
                     <span
                       className="nav-link-active-bar"
@@ -142,9 +140,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
           <p className="text-xs font-semibold tracking-[0.14em] text-slate-500">
             PECATHON <span className="text-[#C7AD91]">·</span> V0.3
           </p>
-          <p className="mt-1 text-xs text-slate-500">
-            Crafted for the team.
-          </p>
+          <p className="mt-1 text-xs text-slate-500">Crafted for the team.</p>
         </div>
       </aside>
     </>
