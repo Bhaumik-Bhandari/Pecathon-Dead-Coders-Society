@@ -10,7 +10,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   --color-ink: #141f2b;
   --color-paper: #f7f7f5;
   --color-ivory: #faf6ee;
@@ -18,6 +17,32 @@
   --color-amber: #e9b15d;
   --color-sage: #637663;
   --color-border: #e7e6e1;
+
+  /* Shared gradient used by the dashboard and sidebar. */
+  --dashboard-background-color: #111315;
+  --dashboard-background-image:
+    radial-gradient(
+      ellipse at 8% 0%,
+      rgba(201, 165, 112, 0.13) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 100% 12%,
+      rgba(151, 75, 57, 0.13) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 70% 100%,
+      rgba(151, 143, 119, 0.08) 0%,
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      #111315 0%,
+      #191a1a 45%,
+      #20201e 72%,
+      #131516 100%
+    );
 }
 
 * {
@@ -34,6 +59,7 @@ body {
   min-height: 100vh;
   margin: 0;
 }
+
 /* Global typography scale */
 body {
   font-size: 16px;
@@ -125,11 +151,9 @@ body {
   min-height: 100vh;
 }
 
-
 /* -----------------------------------------
    MYSTIC MIKADO — FULL BLEED DARK GRADIENT
 ----------------------------------------- */
-
 /* Shared page background, including the topbar and gaps */
 .workspace-shell {
   position: relative;
@@ -161,7 +185,7 @@ body {
     );
 }
 
-/* Dashboard keeps its original gradient and Japanese-inspired details */
+/* Dashboard and sidebar share the same base gradient. */
 .dashboard-page {
   position: relative;
   isolation: isolate;
@@ -170,35 +194,17 @@ body {
   overflow: hidden;
   border: 1px solid rgba(225, 207, 177, 0.12);
   border-radius: 24px;
-
-  background-color: #111315;
-  background-image:
-    radial-gradient(
-      ellipse at 8% 0%,
-      rgba(201, 165, 112, 0.13) 0%,
-      transparent 34%
-    ),
-    radial-gradient(
-      ellipse at 100% 12%,
-      rgba(151, 75, 57, 0.13) 0%,
-      transparent 34%
-    ),
-    radial-gradient(
-      ellipse at 70% 100%,
-      rgba(151, 143, 119, 0.08) 0%,
-      transparent 42%
-    ),
-    linear-gradient(
-      135deg,
-      #111315 0%,
-      #191a1a 45%,
-      #20201e 72%,
-      #131516 100%
-    );
-
+  background-color: var(--dashboard-background-color);
+  background-image: var(--dashboard-background-image);
   box-shadow:
     inset 0 1px 0 rgba(245, 231, 209, 0.035),
     0 18px 50px rgba(0, 0, 0, 0.16);
+}
+
+/* Sidebar uses the exact same gradient as the dashboard. */
+.sidebar-gradient-bg {
+  background-color: var(--dashboard-background-color);
+  background-image: var(--dashboard-background-image);
 }
 
 .dashboard-page::before {
@@ -247,7 +253,7 @@ body {
 }
 
 /* Shared canvas behind the topbar, content and surrounding gaps.
-   The sidebar keeps its own solid background. */
+   The sidebar now uses the dashboard gradient as well. */
 .workspace-shell {
   min-height: 100vh;
   background:
@@ -274,17 +280,11 @@ body {
     );
 }
 
-/* Let the shared canvas show through the topbar. */
-.topbar-blend {
-  background: transparent !important;
-  border-color: rgba(225, 207, 177, 0.12) !important;
-  box-shadow: none !important;
-}
-
-.topbar-blend {
-  background: transparent !important;
-  border-color: rgba(225, 207, 177, 0.12) !important;
-  box-shadow: none !important;
+/* Opaque topbar surface */
+.topbar-opaque {
+  background: #f7f7f5 !important;
+  border-color: #e7e6e1 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
 }
 
 button,
@@ -324,7 +324,6 @@ a {
 }
 
 /* Keep icons and text above decorative effects. */
-
 .nav-link-content {
   position: relative;
   z-index: 3;
@@ -333,7 +332,6 @@ a {
 /* -----------------------------------------
    WARM GLINT — LEFT TO RIGHT
 ----------------------------------------- */
-
 .nav-link-glint {
   position: absolute;
   z-index: 1;
@@ -401,7 +399,6 @@ a {
    CHERRY BLOSSOM PETALS
    A staggered sweep across the entire link.
 ----------------------------------------- */
-
 .sakura-sweep {
   position: absolute;
   z-index: 2;
@@ -426,7 +423,6 @@ a {
     #df8ca8 75%,
     #c86c8d 100%
   );
-
   box-shadow:
     0 2px 5px rgba(20, 31, 43, 0.12),
     0 0 9px rgba(245, 183, 204, 0.3);
@@ -435,10 +431,10 @@ a {
   pointer-events: none;
   will-change: left, transform, opacity;
 }
+
 /* -----------------------------------------
    SLOW, CLUSTERED CHERRY BLOSSOM ANIMATION
 ----------------------------------------- */
-
 .sakura-link:hover .nav-petal,
 .sakura-link:focus-visible .nav-petal {
   animation: sakura-sweep 900ms ease-out
@@ -483,7 +479,6 @@ a {
 }
 
 /* Active route indicator */
-
 .nav-link-active-bar {
   position: absolute;
   z-index: 4;
@@ -512,14 +507,13 @@ a {
 }
 
 /* Dashboard anchor alignment */
-
 .dashboard-anchor {
   scroll-margin-top: 92px;
 }
+
 /* -----------------------------------------
    SIDEBAR SCROLLBAR — WARM MIKADO PALETTE
 ----------------------------------------- */
-
 .sidebar-nav-scroll {
   scrollbar-width: thin;
   scrollbar-color: rgba(233, 177, 93, 0.5) transparent;
@@ -556,7 +550,6 @@ a {
 /* -----------------------------------------
    ACCESSIBILITY
 ----------------------------------------- */
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
