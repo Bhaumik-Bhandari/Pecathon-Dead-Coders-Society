@@ -6,12 +6,15 @@ import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
 const pageNames = {
-  "/": "Overview",
+  "/": "Dojo Overview",
   "/modules": "Modules",
   "/activity": "Activity",
   "/team": "Team",
   "/settings": "Settings",
-  "/help": "Help & support",
+  "/help": "Help & Support",
+  "/watchtower": "The Watchtower",
+  "/celestial-scroll": "The Celestial Scroll",
+  "/spirit-lens": "The Spirit Lens",
 };
 
 export default function AppLayout() {

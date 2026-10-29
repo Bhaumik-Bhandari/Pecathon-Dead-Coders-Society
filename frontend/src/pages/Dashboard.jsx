@@ -1,222 +1,395 @@
+
+import { Link } from "react-router-dom";
 import {
-  Blocks,
-  CheckCircle2,
+  ArrowUpRight,
+  CalendarDays,
+  Cloud,
   Clock3,
-  Code2,
-  Palette,
+  Droplets,
+  Eye,
+  MapPin,
+  Moon,
   Sparkles,
 } from "lucide-react";
 
-import Panel from "../components/ui/Panel";
-import StatCard from "../components/ui/StatCard";
-import StatusBadge from "../components/ui/StatusBadge";
-import { dashboardStats, setupItems } from "../data/dashboardData";
-
-function BuildStep({ number, title, description, isLast = false }) {
+function WeatherMetric({ icon: Icon, label, note }) {
   return (
-    <div className="flex gap-3.5">
-      <div className="flex flex-col items-center">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#E9E2D5] bg-[#FAF6EE] text-xs font-bold text-[#9B733B]">
-          {number}
-        </div>
+    <article className="rounded-2xl border border-white/[0.08] bg-[#142135]/80 p-4 transition-colors duration-200 hover:border-[#C99A52]/30 sm:p-5">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-xs font-medium text-[#A9B5C5] sm:text-sm">
+          {label}
+        </span>
 
-        {!isLast && <div className="mt-2 w-px flex-1 bg-[#E8E6E0]" />}
+        <Icon size={19} className="shrink-0 text-[#D4AE6A]" />
       </div>
 
-      <div className={isLast ? "pb-0" : "pb-6"}>
-        <h3 className="text-sm font-semibold text-[#263342]">{title}</h3>
-        <p className="mt-1.5 text-sm leading-6 text-[#77808B]">
+      <p className="mt-5 text-2xl font-semibold tracking-tight text-[#F4EBDD]">
+        —
+      </p>
+
+      <p className="mt-1.5 text-xs leading-5 text-[#8492A5]">
+        {note}
+      </p>
+    </article>
+  );
+}
+
+function SectionHeading({ eyebrow, title, description }) {
+  return (
+    <div>
+      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D4AE6A] sm:text-xs">
+        {eyebrow}
+      </p>
+
+      <h2 className="mt-2 text-lg font-semibold tracking-tight text-[#F4EBDD] sm:text-xl">
+        {title}
+      </h2>
+
+      {description && (
+        <p className="mt-1.5 text-sm leading-6 text-[#93A0B1]">
           {description}
         </p>
-      </div>
+      )}
     </div>
   );
 }
 
-export default function Dashboard() {
-
+function FeatureLink({ to, icon: Icon, eyebrow, title, description }) {
   return (
-    <div className="dashboard-page relative z-0 min-h-full space-y-7">
-      {/* Page heading */}
-      <section className="flex flex-col gap-3">
-        <div className="max-w-2xl">
-          <div className="mb-3 flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#C9A570]" />
-            <p className="text-xs font-semibold uppercase tracking-[0.19em] text-[#C9A570]">
-              The foundation
-            </p>
-          </div>
-
-          <h1 className="text-2xl font-semibold tracking-tight text-[#F2E9DB] sm:text-3xl">
-            Workspace overview
-          </h1>
-
-          <p className="mt-3 text-sm leading-6 text-[#B9B2A7] sm:text-base">
-            A flexible starting point for your PECathon project. We’ll add the
-            actual product workflow once the problem statement is released.
-          </p>
-        </div>
-      </section>
-
-
-      {/* Overview cards */}
-      <section
-        aria-label="Workspace summary"
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
-      >
-        {dashboardStats.map((stat) => (
-          <StatCard key={stat.title} {...stat} />
-        ))}
-      </section>
-
-      {/* Main content */}
-      <section className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(290px,0.85fr)]">
-        <Panel
-          id="build-checklist"
-          title="Foundation checklist"
-          description="The shared pieces are prepared first so future features can be added cleanly."
-          action={
-            <span className="rounded-lg bg-[#F4F2ED] px-2.5 py-1.5 text-xs font-medium text-[#727B85]">
-              {setupItems.length} items
-            </span>
-          }
-          className="dashboard-anchor"
-        >
-          <div className="divide-y divide-[#F0EFEB]">
-            {setupItems.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <div
-                  key={item.title}
-                  className="flex items-start gap-3.5 py-4 first:pt-0 last:pb-0"
-                >
-                  <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5F3EE] text-[#7F7059]">
-                    <Icon size={18} strokeWidth={1.8} />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm font-semibold text-[#293644]">
-                        {item.title}
-                      </h3>
-
-                      <StatusBadge status={item.status}>
-                        {item.statusLabel}
-                      </StatusBadge>
-                    </div>
-
-                    <p className="mt-1.5 text-sm leading-6 text-[#818993]">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </Panel>
-
-        <Panel
-          title="Build sequence"
-          description="A simple order of work that avoids premature implementation."
-        >
-          <div className="pt-1">
-            <BuildStep
-              number="01"
-              title="Prepare the foundation"
-              description="Layout, design tokens and reusable components."
-            />
-
-            <BuildStep
-              number="02"
-              title="Map the problem to the UI"
-              description="Identify users, key actions, screens and required outputs."
-            />
-
-            <BuildStep
-              number="03"
-              title="Connect the functionality"
-              description="Integrate data, backend APIs and meaningful states."
-              isLast
-            />
-          </div>
-        </Panel>
-      </section>
-
-      {/* Design principles */}
-      <Panel
-        title="Frontend principles"
-        description="The rules we’ll follow as the project grows."
-        action={<Sparkles size={18} className="text-[#C18C3E]" />}
-      >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="rounded-xl border border-[#EEEBE4] bg-[#FCFBF8] p-4">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F8E9E6] text-[#C94B43]">
-              <Blocks size={18} />
-            </div>
-
-            <h3 className="mt-3 text-sm font-semibold text-[#293644]">
-              Reusable by default
-            </h3>
-
-            <p className="mt-1.5 text-sm leading-6 text-[#818993]">
-              Common layouts and UI patterns live in shared components.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-[#EEEBE4] bg-[#FCFBF8] p-4">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FBF1DF] text-[#A66D16]">
-              <Palette size={18} />
-            </div>
-
-            <h3 className="mt-3 text-sm font-semibold text-[#293644]">
-              Subtle visual identity
-            </h3>
-
-            <p className="mt-1.5 text-sm leading-6 text-[#818993]">
-              Neutral surfaces with restrained amber, crimson and sakura details.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-[#EEEBE4] bg-[#FCFBF8] p-4">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#EAF0EA] text-[#53735A]">
-              <Code2 size={18} />
-            </div>
-
-            <h3 className="mt-3 text-sm font-semibold text-[#293644]">
-              Easy to explain
-            </h3>
-
-            <p className="mt-1.5 text-sm leading-6 text-[#818993]">
-              Clear component responsibilities, readable code and no unnecessary
-              dependencies.
-            </p>
-          </div>
-        </div>
-      </Panel>
-
-      {/* Small reminder */}
-      <div className="flex items-start gap-3 rounded-2xl border border-[#E9DFCC] bg-gradient-to-r from-[#FBF5E9] via-[#FDF9F3] to-[#F8EEEE] p-4 sm:p-5">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-[#B17A30] shadow-sm">
-          <Clock3 size={18} />
+    <Link
+      to={to}
+      className="group flex h-full flex-col rounded-2xl border border-white/[0.08] bg-[#142135]/80 p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#C99A52]/40 hover:bg-[#18283D]"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#C99A52]/20 bg-[#C99A52]/10 text-[#D4AE6A]">
+          <Icon size={21} strokeWidth={1.7} />
         </div>
 
-        <div>
-          <p className="text-sm font-semibold text-[#56432B]">
-            Keep the product open-ended for now
-          </p>
-
-          <p className="mt-1 text-sm leading-6 text-[#827461]">
-            We’re intentionally leaving domain-specific features out until the
-            official problem statement tells us what the application must do.
-          </p>
-        </div>
-
-        <CheckCircle2
+        <ArrowUpRight
           size={18}
-          className="ml-auto mt-1 hidden shrink-0 text-[#A17B42] sm:block"
+          className="text-[#748297] transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#D4AE6A]"
         />
       </div>
-    </div>
+
+      <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#D4AE6A]">
+        {eyebrow}
+      </p>
+
+      <h3 className="mt-2 text-base font-semibold text-[#F4EBDD]">
+        {title}
+      </h3>
+
+      <p className="mt-2 text-sm leading-6 text-[#93A0B1]">
+        {description}
+      </p>
+
+      <span className="mt-5 text-xs font-semibold text-[#D4AE6A] group-hover:text-[#F0D49B]">
+        Explore module
+      </span>
+    </Link>
+  );
+}
+
+export default function Dashboard() {
+  const today = new Intl.DateTimeFormat(undefined, {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  }).format(new Date());
+
+  return (
+    <main className="space-y-6 pb-6 sm:space-y-8">
+      {/* Page heading */}
+      <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div className="max-w-2xl">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D4AE6A] shadow-[0_0_10px_rgba(212,174,106,0.65)]" />
+
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D4AE6A] sm:text-xs">
+              TSUKUYOMI WATCH · MYSTIC MIKADO
+            </p>
+          </div>
+
+          <h1 className="text-2xl font-semibold tracking-tight text-[#F4EBDD] sm:text-3xl lg:text-4xl">
+            Tonight, written in the stars.
+          </h1>
+
+          <p className="mt-3 max-w-xl text-sm leading-6 text-[#A5B0BF] sm:text-base">
+            Your celestial guide to finding clearer skies,
+            discovering cosmic events, and exploring the universe.
+          </p>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2 self-start rounded-xl border border-white/10 bg-[#142135]/70 px-3.5 py-3 sm:self-auto">
+          <CalendarDays size={17} className="text-[#D4AE6A]" />
+          <span className="text-sm text-[#D9DDE4]">{today}</span>
+        </div>
+      </header>
+
+      {/* Hero: Night Honor Score */}
+      <section className="relative overflow-hidden rounded-3xl border border-[#C99A52]/25 bg-gradient-to-br from-[#1A2A40] via-[#101B2C] to-[#251E2C] p-5 sm:p-7 lg:p-8">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-16 -top-24 h-64 w-64 rounded-full bg-[#C99A52]/[0.07] blur-3xl"
+        />
+
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-24 left-1/3 h-48 w-64 rounded-full bg-[#853C45]/15 blur-3xl"
+        />
+
+        <div className="relative grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Sparkles size={16} className="text-[#D4AE6A]" />
+
+              <p className="text-[10px] font-bold uppercase tracking-[0.19em] text-[#D4AE6A] sm:text-xs">
+                The Watchtower
+              </p>
+
+              <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] font-medium text-[#A9B5C5]">
+                Forecast pending
+              </span>
+            </div>
+
+            <h2 className="mt-4 text-xl font-semibold text-[#F4EBDD] sm:text-2xl">
+              Tonight's observing conditions
+            </h2>
+
+            <p className="mt-2 max-w-lg text-sm leading-6 text-[#A5B0BF]">
+              Discover how suitable the sky is for stargazing.
+              Your score will appear once location and weather
+              data are connected.
+            </p>
+
+            <Link
+              to="/watchtower"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#C99A52] px-4 py-3 text-sm font-semibold text-[#151C26] transition hover:bg-[#E0B76E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0D49B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17263A]"
+            >
+              Explore the Watchtower
+              <ArrowUpRight size={16} />
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-5 md:flex-col md:gap-2 md:pl-5">
+            <div className="relative flex h-28 w-28 shrink-0 items-center justify-center rounded-full border border-[#D4AE6A]/30 bg-[#0D1725]/60 sm:h-32 sm:w-32">
+              <div className="absolute inset-2 rounded-full border border-dashed border-[#D4AE6A]/20" />
+
+              <div className="text-center">
+                <p className="text-3xl font-semibold tracking-tight text-[#F4EBDD] sm:text-4xl">
+                  —
+                </p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#A5B0BF]">
+                  Out of 100
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-[#F4EBDD]">
+                Night Honor Score
+              </p>
+
+              <p className="mt-1 text-xs leading-5 text-[#93A0B1] md:text-center">
+                Awaiting weather data
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Location context */}
+      <section className="flex flex-col gap-3 rounded-2xl border border-white/[0.08] bg-[#142135]/60 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex items-start gap-3">
+          <div className="rounded-xl bg-[#C99A52]/10 p-2.5 text-[#D4AE6A]">
+            <MapPin size={19} />
+          </div>
+
+          <div>
+            <h2 className="text-sm font-semibold text-[#F4EBDD]">
+              Your observing location
+            </h2>
+
+            <p className="mt-1 text-xs leading-5 text-[#93A0B1]">
+              Choose a location to see its forecast and suitable
+              observing times.
+            </p>
+          </div>
+        </div>
+
+        <Link
+          to="/watchtower"
+          className="inline-flex items-center gap-2 self-start text-sm font-semibold text-[#D4AE6A] transition hover:text-[#F0D49B] sm:self-center"
+        >
+          Choose location
+          <ArrowUpRight size={16} />
+        </Link>
+      </section>
+
+      {/* Weather summary */}
+      <section>
+        <SectionHeading
+          eyebrow="Sky conditions"
+          title="A closer look at the sky"
+          description="Forecast details will populate after the weather service is connected."
+        />
+
+        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <WeatherMetric
+            icon={Cloud}
+            label="Cloud cover"
+            note="Hourly forecast"
+          />
+
+          <WeatherMetric
+            icon={Eye}
+            label="Visibility"
+            note="Forecast distance"
+          />
+
+          <WeatherMetric
+            icon={Droplets}
+            label="Humidity"
+            note="Relative humidity"
+          />
+        </div>
+      </section>
+
+      {/* Best time and next event */}
+      <section className="grid gap-4 lg:grid-cols-2">
+        <article className="rounded-2xl border border-white/[0.08] bg-[#142135]/80 p-5 sm:p-6">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#C99A52]/10 text-[#D4AE6A]">
+              <Clock3 size={20} />
+            </div>
+
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#D4AE6A]">
+                Best observing window
+              </p>
+
+              <h2 className="mt-2 text-lg font-semibold text-[#F4EBDD]">
+                Find your hour under the stars
+              </h2>
+
+              <p className="mt-2 text-sm leading-6 text-[#93A0B1]">
+                Compare the night's forecast scores to find
+                a more suitable time for observing.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-xl border border-dashed border-white/10 bg-[#0C1726]/60 p-4">
+            <p className="text-sm font-medium text-[#D9DDE4]">
+              No observing window calculated yet
+            </p>
+
+            <p className="mt-1.5 text-xs leading-5 text-[#8492A5]">
+              An hourly forecast is needed before a time can
+              be recommended.
+            </p>
+          </div>
+
+          <Link
+            to="/watchtower"
+            className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#D4AE6A] transition hover:text-[#F0D49B]"
+          >
+            Compare sky conditions
+            <ArrowUpRight size={16} />
+          </Link>
+        </article>
+
+        <article className="rounded-2xl border border-white/[0.08] bg-[#142135]/80 p-5 sm:p-6">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#853C45]/20 text-[#E2A6A2]">
+              <Moon size={20} />
+            </div>
+
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#D4AE6A]">
+                The Celestial Scroll
+              </p>
+
+              <h2 className="mt-2 text-lg font-semibold text-[#F4EBDD]">
+                The next cosmic event
+              </h2>
+
+              <p className="mt-2 text-sm leading-6 text-[#93A0B1]">
+                Explore upcoming meteor showers, eclipses,
+                lunar phases and supported space events.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-xl border border-dashed border-white/10 bg-[#0C1726]/60 p-4">
+            <p className="text-sm font-medium text-[#D9DDE4]">
+              Event information not loaded
+            </p>
+
+            <p className="mt-1.5 text-xs leading-5 text-[#8492A5]">
+              The next event will appear after the event service
+              returns verified data.
+            </p>
+          </div>
+
+          <Link
+            to="/celestial-scroll"
+            className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#D4AE6A] transition hover:text-[#F0D49B]"
+          >
+            Explore celestial events
+            <ArrowUpRight size={16} />
+          </Link>
+        </article>
+      </section>
+
+      {/* Module shortcuts */}
+      <section>
+        <SectionHeading
+          eyebrow="Your celestial journey"
+          title="Explore the realm"
+          description="Go deeper into each part of Tsukuyomi Watch."
+        />
+
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <FeatureLink
+            to="/watchtower"
+            icon={MapPin}
+            eyebrow="01 · Discover"
+            title="The Watchtower"
+            description="Explore observing locations, compare sky conditions and find the best available observing window."
+          />
+
+          <FeatureLink
+            to="/celestial-scroll"
+            icon={CalendarDays}
+            eyebrow="02 · Anticipate"
+            title="The Celestial Scroll"
+            description="Explore upcoming celestial events and moon information for your chosen location."
+          />
+
+          <FeatureLink
+            to="/spirit-lens"
+            icon={Sparkles}
+            eyebrow="03 · Reveal"
+            title="The Spirit Lens"
+            description="Restore astronomical images and inspect detected celestial-object candidates."
+          />
+        </div>
+      </section>
+
+      {/* Honest data status */}
+      <footer className="flex items-start gap-3 rounded-xl border border-white/[0.07] bg-[#101B2A]/70 px-4 py-3.5">
+        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#D4AE6A]" />
+
+        <p className="text-xs leading-5 text-[#8492A5]">
+          <span className="font-semibold text-[#BEC6D0]">
+            Data status:
+          </span>{" "}
+          The dashboard layout is ready. Weather forecasts,
+          astronomical events and image analysis will show
+          results after their backend services are connected.
+        </p>
+      </footer>
+    </main>
   );
 }
