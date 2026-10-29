@@ -4,7 +4,6 @@ import {
   Blocks,
   LayoutDashboard,
   Settings2,
-  Sparkles,
   X,
   CircleHelp,
   Users,
@@ -42,23 +41,30 @@ export default function Sidebar({ mobileOpen, onClose }) {
       )}
 
       <aside
-        className={`sidebar-gradient-bg fixed inset-y-0 left-0 z-50 flex w-[252px] flex-col border-r border-[#d9cfc0]/15 text-white transition-transform duration-300 ease-out ${
+        className={`sidebar-gradient-bg fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col border-r border-[#d9cfc0]/15 text-white transition-transform duration-300 ease-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
         {/* Brand */}
-        <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-white/10 px-5">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#E9B15D] to-[#D94C42] text-white shadow-lg shadow-black/20">
-              <Sparkles size={20} />
+        <div className="flex h-[88px] shrink-0 items-center justify-between border-b border-white/10 px-5">
+          <div className="flex min-w-0 items-center gap-3.5">
+            {/* Team logo */}
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#D4AE6A]/35 bg-[#F4EBDD] p-1.5 shadow-[0_8px_22px_rgba(0,0,0,0.30)]">
+              <img
+                src="/images/Logo.jpeg"
+                alt="PECATHON team logo"
+                className="h-full w-full rounded-xl object-contain"
+              />
             </div>
 
-            <div>
-              <p className="font-display text-sm font-extrabold tracking-[0.13em]">
+            {/* Team branding */}
+            <div className="min-w-0">
+              <p className="font-display text-base font-extrabold leading-tight tracking-[0.11em] text-white">
                 PECATHON
               </p>
-              <p className="mt-0.5 text-xs font-medium tracking-wide text-slate-400">
-                Team workspace
+
+              <p className="mt-1 text-sm font-medium tracking-wide text-slate-400">
+                Team Workspace
               </p>
             </div>
           </div>
@@ -67,14 +73,14 @@ export default function Sidebar({ mobileOpen, onClose }) {
             type="button"
             aria-label="Close navigation"
             onClick={onClose}
-            className="rounded-lg p-2 text-slate-400 transition hover:bg-white/10 hover:text-white md:hidden"
+            className="shrink-0 rounded-lg p-2 text-slate-400 transition hover:bg-white/10 hover:text-white md:hidden"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
         {/* Grouped navigation */}
-        <nav aria-label="Main navigation" className="sidebar-nav-scroll flex-1 overflow-y-auto px-4 pt-7">
+        <nav aria-label="Main navigation" className="sidebar-nav-scroll flex-1 overflow-y-auto px-5 pt-8">
           {navigationGroups.map((group) => (
             <section key={group.heading} className="mb-7">
               <h2 className="mb-3 px-3 text-xs font-bold uppercase tracking-[0.18em] text-[#C7AD91]">
@@ -89,7 +95,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
                     end={end}
                     onClick={onClose}
                     className={({ isActive }) =>
-                      `sakura-link group flex w-full items-center gap-3 rounded-xl border px-3.5 py-3 text-sm font-semibold ${
+                      `sakura-link group flex w-full items-center gap-3.5 rounded-xl border px-4 py-3.5 text-[15px] font-semibold ${
                         isActive
                           ? "nav-link-active border-[#916344]/70 bg-gradient-to-r from-[#643A39] via-[#45323A] to-[#29313A] text-[#FFF0D7] shadow-[0_5px_20px_rgba(217,76,66,0.14)]"
                           : "border-transparent text-slate-400 hover:border-[#98674F]/70 hover:bg-gradient-to-r hover:from-[#663C3A]/90 hover:via-[#49313B]/75 hover:to-[#303641] hover:text-[#FFF0D7] hover:shadow-[0_5px_18px_rgba(217,76,66,0.12)]"
@@ -117,7 +123,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
                     </span>
 
                     <Icon
-                      size={18}
+                      size={20}
                       strokeWidth={1.9}
                       className="nav-link-content shrink-0 transition-all duration-200 group-hover:scale-110 group-hover:text-[#F3BF76]"
                     />

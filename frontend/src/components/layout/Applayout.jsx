@@ -6,15 +6,12 @@ import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
 const pageNames = {
-  "/": "Dojo Overview",
+  "/": "Overview",
   "/modules": "Modules",
   "/activity": "Activity",
   "/team": "Team",
   "/settings": "Settings",
-  "/help": "Help & Support",
-  "/watchtower": "The Watchtower",
-  "/celestial-scroll": "The Celestial Scroll",
-  "/spirit-lens": "The Spirit Lens",
+  "/help": "Help & support",
 };
 
 export default function AppLayout() {
@@ -32,7 +29,7 @@ export default function AppLayout() {
       />
 
       {/* Main area stays transparent so the shared gradient shows through */}
-      <main className="min-h-screen md:pl-[252px]">
+      <main className="min-h-screen md:pl-[280px]">
         <Topbar
           activePage={activePage}
           onMenuClick={() => setMobileOpen(true)}

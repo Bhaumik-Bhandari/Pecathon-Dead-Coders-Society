@@ -145,7 +145,7 @@ export default function Topbar({ activePage, onMenuClick }) {
 
   return (
     <header
-      className="sticky top-0 z-30 flex h-[72px] items-center
+      className="sticky top-0 z-30 flex h-[88px] items-center
         justify-between gap-3 border-b border-[#d9cfc0]/15
         px-4 sm:px-7 lg:px-10"
       style={{
@@ -163,17 +163,17 @@ export default function Topbar({ activePage, onMenuClick }) {
             p-2.5 text-[#B9B2A7] transition
             hover:bg-white/10 hover:text-[#F2E9DB] md:hidden"
         >
-          <Menu size={18} />
+          <Menu size={20} />
         </button>
 
         <div className="hidden min-w-0 sm:block">
-          <p className="text-[10px] font-semibold uppercase
+          <p className="text-xs font-semibold uppercase
             tracking-[0.18em] text-[#C9A570]"
           >
             PECATHON / WORKSPACE
           </p>
 
-          <p className="mt-1 truncate text-sm font-semibold
+          <p className="mt-1 truncate text-base font-semibold
             text-[#F2E9DB]"
           >
             {activePage}
@@ -184,13 +184,13 @@ export default function Topbar({ activePage, onMenuClick }) {
       {/* Center: search input and dropdown share one hover area */}
       <div
         ref={searchRef}
-        className="relative mx-auto hidden w-full max-w-[560px]
+        className="relative mx-auto hidden w-full max-w-[600px]
           flex-1 md:block"
         onMouseEnter={() => setSearchOpen(true)}
         onMouseLeave={() => setSearchOpen(false)}
       >
         <div
-          className={`relative flex h-12 items-center gap-3
+          className={`relative flex h-[52px] items-center gap-3
             rounded-xl border px-4 transition-all duration-200
             ${
               searchOpen
