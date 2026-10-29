@@ -10,7 +10,9 @@ import {
   Blocks,
   Sparkles,
 } from "lucide-react";
-
+import Watchtower from "./pages/Watchtower";
+import CelestialScroll from "./pages/CelestialScroll";
+import SpiritLens from "./pages/SpiritLens";
 // Main application layout
 import AppLayout from "./components/layout/AppLayout";
 
@@ -196,6 +198,20 @@ export default function App() {
         <Route
           index
           element={<Dashboard />}
+        />
+        <Route
+          path="watchtower"
+          element={<Watchtower />}
+        />
+
+        <Route
+          path="celestial-scroll"
+          element={<CelestialScroll />}
+        />
+
+        <Route
+          path="spirit-lens"
+          element={<SpiritLens />}
         />
 
         {/* Modules section */}
