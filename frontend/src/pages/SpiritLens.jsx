@@ -1,163 +1,298 @@
+
 import { useEffect, useState } from "react";
 import {
-  ImageUp,
-  ScanSearch,
+  ArrowRight,
+  Orbit,
+  RotateCcw,
+  Rocket,
+  Satellite,
+  SkipForward,
   Sparkles,
 } from "lucide-react";
 
-export default function SpiritLens() {
-  const [file, setFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("");
-  const [error, setError] = useState("");
+const PLANETS = [
+  {
+    id: "earth",
+    name: "Earth",
+    label: "THE BLUE MARBLE",
+    role: "ORIGIN",
+    color: "#428bd4",
+    description: "Our homeworld. Every great expedition begins here.",
+  },
+  {
+    id: "moon",
+    name: "The Moon",
+    label: "LUNAR FRONTIER",
+    role: "SATELLITE",
+    color: "#b9c5d5",
+    description: "A cratered neighbour glowing in the darkness.",
+  },
+  {
+    id: "mars",
+    name: "Mars",
+    label: "THE RED PLANET",
+    role: "FRONTIER 01",
+    color: "#d8795b",
+    description: "A rust-coloured world of ancient craters.",
+  },
+  {
+    id: "jupiter",
+    name: "Jupiter",
+    label: "THE GAS GIANT",
+    role: "FRONTIER 02",
+    color: "#d6b18a",
+    description: "A vast gas giant with sweeping atmospheric bands.",
+  },
+  {
+    id: "saturn",
+    name: "Saturn",
+    label: "THE RINGED WORLD",
+    role: "FRONTIER 03",
+    color: "#d5c096",
+    description: "A distant world encircled by magnificent rings.",
+  },
+];
+
+export default function SpiritLensScene() {
+  const [phase, setPhase] = useState("launch");
+  const [runKey, setRunKey] = useState(0);
+  const [selectedId, setSelectedId] = useState("earth");
+
+  const selectedPlanet =
+    PLANETS.find((planet) => planet.id === selectedId) ?? PLANETS[0];
 
   useEffect(() => {
-    if (!file) {
-      setPreviewUrl("");
-      return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setPhase("orbit");
+      return undefined;
     }
 
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
+    setPhase("launch");
 
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+    const timer = window.setTimeout(() => {
+      setPhase("orbit");
+    }, 6500);
 
-  function handleFileChange(event) {
-    const selectedFile = event.target.files?.[0];
+    return () => window.clearTimeout(timer);
+  }, [runKey]);
 
-    setError("");
-    setFile(null);
+  function replayLaunch() {
+    setPhase("launch");
+    setRunKey((key) => key + 1);
+  }
 
-    if (!selectedFile) return;
+  function skipLaunch() {
+    setPhase("orbit");
+  }
 
-    const supportedTypes = ["image/jpeg", "image/png"];
-
-    if (!supportedTypes.includes(selectedFile.type)) {
-      setError("Please select a JPEG or PNG image.");
-      event.target.value = "";
-      return;
-    }
-
-    if (selectedFile.size > 10 * 1024 * 1024) {
-      setError("The image must be smaller than 10 MB.");
-      event.target.value = "";
-      return;
-    }
-
-    setFile(selectedFile);
+  function enterSpiritLens() {
+    document.getElementById("spirit-lens-upload")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   }
 
   return (
-    <section className="space-y-7">
-      <header>
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#E9B15D]">
-          Module 03 · The Spirit Lens
-        </p>
+    <section
+      className="spirit-cinematic"
+      data-phase={phase}
+      aria-label="Spirit Lens celestial expedition"
+    >
+      <div className="spirit-cinema-frame spirit-lite-frame">
+        {/* Pure CSS space background; no canvas or WebGL required. */}
+        <div className="spirit-lite-stars" aria-hidden="true" />
+        <div className="spirit-lite-nebula" aria-hidden="true" />
+        <div className="spirit-lite-horizon" aria-hidden="true" />
 
-        <h1 className="mt-3 text-3xl font-bold text-[#F2E9DB]">
-          Reveal the details hidden in the stars.
-        </h1>
+        {/* Earth */}
+        <div
+          className="spirit-lite-earth"
+          aria-label="Earth"
+          role="img"
+        >
+          <span />
+        </div>
 
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">
-          Preview an astronomical image before connecting it
-          to the image-restoration and source-detection pipeline.
-        </p>
-      </header>
+        {/* Decorative planets */}
+        <div className="spirit-lite-moon" aria-hidden="true" />
+        <div className="spirit-lite-mars" aria-hidden="true" />
+        <div className="spirit-lite-jupiter" aria-hidden="true" />
+        <div className="spirit-lite-saturn" aria-hidden="true">
+          <span />
+        </div>
 
-      <section className="rounded-2xl border border-white/10 bg-[#152234]/80 p-5 sm:p-7">
-        <div className="flex items-center gap-3">
-          <ImageUp size={22} className="text-[#E9B15D]" />
+        {/* Orbital path */}
+        <div className="spirit-lite-orbit" aria-hidden="true" />
 
-          <div>
-            <h2 className="font-semibold text-[#F2E9DB]">
-              Upload an astronomy image
-            </h2>
+        {/* Rocket and exhaust */}
+        <div className="spirit-lite-rocket" aria-hidden="true">
+          <span className="spirit-lite-flame" />
+          <Rocket size={42} strokeWidth={1.2} />
+        </div>
 
-            <p className="mt-1 text-xs text-slate-400">
-              JPEG or PNG · Maximum 10 MB
-            </p>
+        <div className="spirit-cinema-vignette" />
+
+        <header className="spirit-cinema-hud">
+          <div className="spirit-cinema-brand">
+            <span className="spirit-cinema-brand-icon">
+              <Orbit size={19} />
+            </span>
+            <div>
+              <strong>SPIRIT LENS</strong>
+              <span>CELESTIAL EXPEDITION</span>
+            </div>
+          </div>
+
+          <div className="spirit-cinema-status">
+            <span className="spirit-cinema-status-dot" />
+            {phase === "launch" ? "MISSION INITIATED" : "DEEP SPACE"}
+          </div>
+        </header>
+
+        <div className="spirit-cinema-launch-copy">
+          <p className="spirit-cinema-eyebrow">
+            <Sparkles size={12} />
+            MISSION 001 · DEPARTURE
+          </p>
+
+          <h2>
+            Beyond the
+            <br />
+            <em>known sky.</em>
+          </h2>
+
+          <p>
+            Leaving Earth behind.
+            <br />
+            Beginning the search for the extraordinary.
+          </p>
+
+          <div className="spirit-cinema-telemetry">
+            <span>ORIGIN</span>
+            <strong>EARTH</strong>
+            <span className="spirit-cinema-telemetry-separator" />
+            <span>STATUS</span>
+            <strong>{phase === "launch" ? "ASCENDING" : "IN ORBIT"}</strong>
           </div>
         </div>
 
-        <label className="mt-6 flex min-h-[180px] cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-white/20 bg-[#0D1725]/60 p-6 text-center transition hover:border-[#E9B15D]/60">
-          <ImageUp size={34} className="text-[#E9B15D]" />
-
-          <span className="mt-4 font-medium text-[#F2E9DB]">
-            Choose an image from your computer
-          </span>
-
-          <span className="mt-2 text-sm text-slate-400">
-            Your original image will remain unchanged.
-          </span>
-
-          <input
-            type="file"
-            accept="image/jpeg,image/png"
-            className="sr-only"
-            onChange={handleFileChange}
-          />
-        </label>
-
-        {error && (
-          <p role="alert" className="mt-4 text-sm text-red-400">
-            {error}
+        <div className="spirit-cinema-orbit-copy">
+          <p className="spirit-cinema-eyebrow">
+            <Satellite size={12} />
+            EXPEDITION MAP · SOLAR SYSTEM
           </p>
+
+          <h2>
+            Worlds beyond
+            <br />
+            <em>our own.</em>
+          </h2>
+
+          <p>
+            Five celestial stops.
+            <br />
+            One journey into the unknown.
+          </p>
+        </div>
+
+        {phase === "launch" ? (
+          <button
+            type="button"
+            className="spirit-cinema-control"
+            onClick={skipLaunch}
+          >
+            Skip launch
+            <SkipForward size={14} />
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="spirit-cinema-control"
+            onClick={replayLaunch}
+          >
+            <RotateCcw size={14} />
+            Replay sequence
+          </button>
         )}
 
-        {previewUrl && (
-          <div className="mt-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <h3 className="font-medium text-[#F2E9DB]">
-                Original image preview
-              </h3>
-
-              <span className="text-xs text-slate-400">
-                {(file.size / (1024 * 1024)).toFixed(2)} MB
-              </span>
-            </div>
-
-            <div className="mt-4 overflow-hidden rounded-xl border border-white/10 bg-black">
-              <img
-                src={previewUrl}
-                alt="Selected astronomical image"
-                className="mx-auto max-h-[480px] w-full object-contain"
-              />
-            </div>
-
-            <p className="mt-3 break-all text-xs text-slate-400">
-              {file.name}
-            </p>
+        <div className="spirit-cinema-launch-status">
+          <span className="spirit-cinema-status-dot" />
+          <span>
+            {phase === "launch"
+              ? "ENGINE IGNITION · ASCENT · ORBIT"
+              : "ORBIT ESTABLISHED · ROUTE ACTIVE"}
+          </span>
+          <div className="spirit-cinema-progress">
+            <span />
           </div>
-        )}
-      </section>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <section className="rounded-2xl border border-white/10 bg-[#152234]/80 p-5">
-          <Sparkles size={22} className="text-[#E9B15D]" />
-
-          <h2 className="mt-4 font-semibold text-[#F2E9DB]">
-            AI image restoration
-          </h2>
-
-          <p className="mt-2 text-sm leading-6 text-slate-400">
-            The pre-trained restoration model and backend
-            processing pipeline have not been connected yet.
-          </p>
-        </section>
-
-        <section className="rounded-2xl border border-white/10 bg-[#152234]/80 p-5">
-          <ScanSearch size={22} className="text-[#E9B15D]" />
-
-          <h2 className="mt-4 font-semibold text-[#F2E9DB]">
-            Object detection
-          </h2>
-
-          <p className="mt-2 text-sm leading-6 text-slate-400">
-            Detected-object markers and image measurements
-            will appear after a scan is processed by the backend.
-          </p>
-        </section>
+        </div>
       </div>
+
+      <div className="spirit-cinema-destinations">
+        <div className="spirit-cinema-destination-heading">
+          <div>
+            <p>CHOOSE A CELESTIAL BODY</p>
+            <span>
+              Select a destination to explore this cinematic route.
+            </span>
+          </div>
+          <span className="spirit-cinema-scale-note">
+            CINEMATIC SCALE · NOT TO SCALE
+          </span>
+        </div>
+
+        <nav
+          className="spirit-cinema-planet-nav"
+          aria-label="Planetary destinations"
+        >
+          {PLANETS.map((planet, index) => (
+            <button
+              type="button"
+              key={planet.id}
+              className={
+                selectedId === planet.id
+                  ? "spirit-cinema-planet-button is-active"
+                  : "spirit-cinema-planet-button"
+              }
+              onClick={() => setSelectedId(planet.id)}
+              aria-pressed={selectedId === planet.id}
+            >
+              <span className="spirit-cinema-planet-number">
+                0{index + 1}
+              </span>
+              <span className="spirit-cinema-planet-name">
+                {planet.name}
+              </span>
+              <span className="spirit-cinema-planet-role">
+                {planet.role}
+              </span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="spirit-cinema-selected-world">
+          <div>
+            <p>{selectedPlanet.label}</p>
+            <h3>{selectedPlanet.name}</h3>
+            <span>{selectedPlanet.description}</span>
+          </div>
+
+          <button
+            type="button"
+            className="spirit-cinema-continue"
+            onClick={enterSpiritLens}
+          >
+            Enter Spirit Lens
+            <ArrowRight size={16} />
+          </button>
+        </div>
+      </div>
+
+      <p className="spirit-cinema-attribution">
+        A stylised celestial illustration · Planet positions are illustrative.
+      </p>
     </section>
   );
 }
