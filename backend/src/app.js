@@ -1,16 +1,18 @@
 import express from "express";
 import cors from "cors";
 import watchtowerRoutes from "./routes/watchtowerRoutes.js";
+import spiritLensRoutes from "./routes/spiritLensRoutes.js";
 
 const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173",
+    origin:
+      process.env.FRONTEND_ORIGIN || "http://localhost:5173",
   })
 );
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 
 app.get("/api/health", (req, res) => {
   res.json({
@@ -20,6 +22,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/watchtower", watchtowerRoutes);
+app.use("/api/spirit-lens", spiritLensRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
