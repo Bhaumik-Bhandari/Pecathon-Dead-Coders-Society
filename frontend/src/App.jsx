@@ -21,9 +21,7 @@ import Login from "./pages/Login";
 
 // --------------------------------------------------
 // Placeholder page content
-// --------------------------------------------------
-// These sections are intentionally preserved.
-// You can replace them with real pages later.
+// These sections can be replaced with real pages later.
 // --------------------------------------------------
 
 const placeholderContent = {
@@ -47,15 +45,11 @@ const placeholderContent = {
 };
 
 // --------------------------------------------------
-// Placeholder page component
-// --------------------------------------------------
-// Shared component for Modules, Activity and Settings.
-// Keeping this component avoids repeating the same UI.
+// Shared placeholder page component
+// Used by Modules, Activity and Settings.
 // --------------------------------------------------
 
 function PlaceholderPage({ page }) {
-  // Get the content for the selected section.
-  // Fall back to Modules if an unexpected page is passed.
   const content =
     placeholderContent[page] ?? placeholderContent.Modules;
 
@@ -184,28 +178,20 @@ function PlaceholderPage({ page }) {
 
 // --------------------------------------------------
 // Main application routing
-// --------------------------------------------------
-// Login is kept outside AppLayout so it can display
-// its own full-screen background and glassmorphism UI.
-// Dashboard sections continue using the shared layout.
+// Login stays outside AppLayout.
+// Dashboard sections use the shared layout.
 // --------------------------------------------------
 
 export default function App() {
   return (
     <Routes>
-      {/* ------------------------------------------ */}
-      {/* Authentication routes                     */}
-      {/* ------------------------------------------ */}
-
+      {/* Authentication route */}
       <Route
         path="/login"
         element={<Login />}
       />
 
-      {/* ------------------------------------------ */}
-      {/* Main application routes                    */}
-      {/* ------------------------------------------ */}
-
+      {/* Main application routes */}
       <Route element={<AppLayout />}>
         {/* Dashboard / overview */}
         <Route
@@ -232,6 +218,7 @@ export default function App() {
         />
       </Route>
 
+      {/* Redirect unknown routes to the dashboard */}
       <Route
         path="*"
         element={<Navigate to="/" replace />}
