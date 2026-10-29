@@ -1,152 +1,414 @@
+
 import { useState } from "react";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  LockKeyhole,
+  Sparkles,
+  UserRound,
+} from "lucide-react";
+
+import "./Login.css";
+
+const REMEMBERED_EMAIL_KEY = "pecfest-remembered-email";
 
 export default function Login() {
+  const [view, setView] = useState("signin");
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState("");
+  const [email, setEmail] = useState(() => {
+    try {
+      return localStorage.getItem(REMEMBERED_EMAIL_KEY) || "";
+    } catch {
+      return "";
+    }
+  });
 
-  function handleContinue(event) {
+  function changeView(nextView) {
+    setView(nextView);
+    setStatus("");
+    setShowPassword(false);
+  }
+
+  function handleSubmit(event) {
     event.preventDefault();
 
     const form = new FormData(event.currentTarget);
-    const email = String(form.get("email") ?? "").trim();
-    const password = String(form.get("password") ?? "");
+    const submittedEmail = String(form.get("email") || "").trim();
+    const password = String(form.get("password") || "");
 
-    if (!email || !password) {
-      setStatus("Enter your email and password to continue.");
+    if (view === "forgot") {
+      setStatus(
+        `Password recovery for ${submittedEmail} requires a configured authentication backend.`,
+      );
       return;
     }
 
+    if (view === "signup") {
+      const name = String(form.get("name") || "").trim();
+      const confirmPassword = String(
+        form.get("confirmPassword") || "",
+      );
+
+      if (!name) {
+        setStatus("Please enter your full name.");
+        return;
+      }
+
+      if (password.length < 8) {
+        setStatus("Your password must contain at least 8 characters.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setStatus("The passwords do not match. Please try again.");
+        return;
+      }
+
+      setStatus(
+        "Your details are valid. Account creation needs backend integration.",
+      );
+      return;
+    }
+
+    const remember = form.get("remember") === "on";
+
+    try {
+      if (remember) {
+        localStorage.setItem(REMEMBERED_EMAIL_KEY, submittedEmail);
+      } else {
+        localStorage.removeItem(REMEMBERED_EMAIL_KEY);
+      }
+    } catch {
+      // The sign-in form remains usable when browser storage is unavailable.
+    }
+
+    setEmail(submittedEmail);
+
     setStatus(
-      "Sign-in is ready for backend connection. No credentials were sent.",
+      "Your details are ready. Connect the login API to authenticate your account.",
     );
   }
 
+  function handleGoogleSignIn() {
+    setStatus(
+      "Google sign-in needs OAuth configuration before it can authenticate you.",
+    );
+  }
+
+  function handleForgotPassword(event) {
+    event.preventDefault();
+    changeView("forgot");
+  }
+
+  function handleCreateAccount(event) {
+    event.preventDefault();
+    changeView("signup");
+  }
+
+  function handleBackToSignIn(event) {
+    event.preventDefault();
+    changeView("signin");
+  }
+
+  const isSignUp = view === "signup";
+  const isForgot = view === "forgot";
+
+  const heading = isForgot
+    ? "Reset password."
+    : isSignUp
+      ? "Join the festival."
+      : "Enter the festival.";
+
+  const description = isForgot
+    ? "Enter your email to start recovering your account."
+    : isSignUp
+      ? "Create your account and become part of the experience."
+      : "Your next chapter begins here.";
+
   return (
-    <main className="login-page">
-      <a className="login-back" href="/" aria-label="Back to overview">
-        <ArrowLeft size={16} aria-hidden="true" />
-        Back to sanctuary
-      </a>
+    <main className="mk-login-page">
+      {/* The image fills the screen; the card creates its own glass effect. */}
+      <div className="mk-login-backdrop" aria-hidden="true" />
 
-      <section className="login-card" aria-labelledby="login-title">
-        <div className="login-brand" aria-hidden="true">
-          <div className="login-emblem">
-            <span>P</span>
+      <section
+        className="mk-login-card"
+        aria-labelledby="mk-login-title"
+      >
+        <div className="mk-login-card-glow" aria-hidden="true" />
+
+        {/* The keyed content re-enters when switching between views. */}
+        <div
+          key={view}
+          className="mk-login-card-content"
+          data-view={view}
+        >
+          {/* PECFEST identity */}
+          <div className="mk-login-brand">
+            <div className="mk-login-brand-mark">
+              <span>P</span>
+              <Sparkles
+                className="mk-login-brand-sparkle"
+                size={14}
+                aria-hidden="true"
+              />
+            </div>
+
+            <div className="mk-login-brand-copy">
+              <span className="mk-login-brand-name">PECFEST</span>
+              <span className="mk-login-brand-subtitle">
+                THE DIGITAL SANCTUARY
+              </span>
+            </div>
           </div>
-          <p>Pecfest / Digital gate</p>
-        </div>
 
-        <div className="login-copy">
-          <p className="login-kicker">A Mystic Mikado · Official portal</p>
-          <h1 id="login-title">Enter the festival</h1>
-          <p className="login-intro">
-            Sign in to your account to access passes, competitions and your
-            personal festival schedule.
-          </p>
-        </div>
+          {/* Heading */}
+          <div className="mk-login-card-heading">
+            <p className="mk-login-card-kicker">
+              <span className="mk-login-kicker-line" />
+              A MYSTIC MIKADO
+              <span className="mk-login-kicker-line" />
+            </p>
 
-        <div className="login-action">
-          <button
-            className="google-button"
-            type="button"
-            onClick={() =>
-              setStatus("Google sign-in needs authentication configuration.")
-            }
+            <h1 id="mk-login-title">{heading}</h1>
+
+            <p className="mk-login-card-description">
+              {description}
+            </p>
+          </div>
+
+          {/* Google sign-in is shown only in sign-in mode. */}
+          {!isSignUp && !isForgot && (
+            <>
+              <button
+                className="mk-login-google"
+                type="button"
+                onClick={handleGoogleSignIn}
+              >
+                <svg
+                  className="mk-login-google-icon"
+                  viewBox="0 0 48 48"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="#EA4335"
+                    d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"
+                  />
+                  <path
+                    fill="#4285F4"
+                    d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.73 7.18l7.27 5.64c4.25-3.92 7.5-9.72 7.5-17.29Z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.88.93 7.54 2.56 10.78l7.97-6.19Z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M24 48c6.48 0 11.93-2.13 15.9-5.8l-7.27-5.64c-2.02 1.35-4.6 2.15-8.63 2.15-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z"
+                  />
+                </svg>
+
+                <span>Continue with Google</span>
+
+                <ArrowRight
+                  className="mk-login-google-arrow"
+                  size={17}
+                  aria-hidden="true"
+                />
+              </button>
+
+              <div className="mk-login-divider">
+                <span />
+                <p>OR CONTINUE WITH EMAIL</p>
+                <span />
+              </div>
+            </>
+          )}
+
+          {/* Email, sign-up and password-recovery forms */}
+          <form
+            className="mk-login-form"
+            onSubmit={handleSubmit}
+            noValidate={false}
           >
-            <svg
-              className="google-mark"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                fill="#4285F4"
-                d="M21.6 12.227c0-.71-.064-1.39-.182-2.045H12v3.868h5.382a4.602 4.602 0 0 1-1.997 3.018v2.51h3.235c1.892-1.742 2.98-4.308 2.98-7.351Z"
-              />
-              <path
-                fill="#34A853"
-                d="M12 22c2.7 0 4.964-.895 6.62-2.422l-3.235-2.51c-.896.6-2.04.956-3.385.956-2.605 0-4.81-1.76-5.598-4.123H3.057v2.589A10 10 0 0 0 12 22Z"
-              />
-              <path
-                fill="#FBBC05"
-                d="M6.402 13.901A6.013 6.013 0 0 1 6.09 12c0-.66.113-1.302.312-1.901V7.51H3.057A10 10 0 0 0 2 12c0 1.614.386 3.141 1.057 4.49l3.345-2.589Z"
-              />
-              <path
-                fill="#EA4335"
-                d="M12 5.976c1.468 0 2.784.505 3.822 1.493l2.868-2.868C16.959 3.01 14.695 2 12 2a10 10 0 0 0-8.943 5.51l3.345 2.589C7.19 7.736 9.395 5.976 12 5.976Z"
-              />
-            </svg>
-            Continue with Google
-          </button>
+            {isSignUp && (
+              <label className="mk-login-field">
+                <span className="mk-login-label">FULL NAME</span>
 
-          <div className="login-divider" aria-hidden="true">
-            <span>or continue with email</span>
-          </div>
+                <span className="mk-login-input-wrap">
+                  <UserRound
+                    className="mk-login-input-icon"
+                    size={17}
+                    aria-hidden="true"
+                  />
 
-          <form onSubmit={handleContinue}>
-            <label className="login-field">
-              <span>Email address</span>
+                  <input
+                    className="mk-login-input mk-login-input-with-icon"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Your full name"
+                    required
+                    maxLength={100}
+                  />
+                </span>
+              </label>
+            )}
+
+            <label className="mk-login-field">
+              <span className="mk-login-label">EMAIL ADDRESS</span>
+
               <input
+                className="mk-login-input"
                 name="email"
                 type="email"
                 autoComplete="email"
                 inputMode="email"
                 placeholder="you@example.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 required
               />
             </label>
 
-            <label className="login-field">
-              <span>Password</span>
-              <span className="password-input">
+            {!isForgot && (
+              <label className="mk-login-field">
+                <span className="mk-login-label">PASSWORD</span>
+
+                <span className="mk-login-password-wrap">
+                  <input
+                    className="mk-login-input mk-login-password-input"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete={
+                      isSignUp ? "new-password" : "current-password"
+                    }
+                    minLength={isSignUp ? 8 : undefined}
+                    placeholder={
+                      isSignUp
+                        ? "Create a password (8+ characters)"
+                        : "Enter your password"
+                    }
+                    required
+                  />
+
+                  <button
+                    className="mk-login-password-toggle"
+                    type="button"
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                    onClick={() =>
+                      setShowPassword((current) => !current)
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff size={17} aria-hidden="true" />
+                    ) : (
+                      <Eye size={17} aria-hidden="true" />
+                    )}
+                  </button>
+                </span>
+              </label>
+            )}
+
+            {isSignUp && (
+              <label className="mk-login-field">
+                <span className="mk-login-label">CONFIRM PASSWORD</span>
+
                 <input
-                  name="password"
+                  className="mk-login-input"
+                  name="confirmPassword"
                   type={showPassword ? "text" : "password"}
-                  autoComplete="current-password"
-                  minLength={6}
-                  placeholder="Enter your password"
+                  autoComplete="new-password"
+                  minLength={8}
+                  placeholder="Enter your password again"
                   required
                 />
-                <button
-                  type="button"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  onClick={() => setShowPassword((visible) => !visible)}
-                >
-                  {showPassword ? (
-                    <EyeOff size={18} aria-hidden="true" />
-                  ) : (
-                    <Eye size={18} aria-hidden="true" />
-                  )}
-                </button>
-              </span>
-            </label>
-
-            <div className="login-options">
-              <label>
-                <input name="remember" type="checkbox" />
-                Remember me
               </label>
-              <a href="#forgot-password">Forgot password?</a>
-            </div>
+            )}
+
+            {view === "signin" && (
+              <div className="mk-login-options">
+                <label className="mk-login-remember">
+                  <input
+                    type="checkbox"
+                    name="remember"
+                    defaultChecked={Boolean(email)}
+                  />
+                  <span>Remember me</span>
+                </label>
+
+                <a
+                  className="mk-login-text-link"
+                  href="#forgot-password"
+                  onClick={handleForgotPassword}
+                >
+                  Forgot password?
+                </a>
+              </div>
+            )}
+
+            {isSignUp && (
+              <label className="mk-login-remember mk-login-terms">
+                <input type="checkbox" name="terms" required />
+                <span>
+                  I agree to the applicable terms and privacy policy.
+                </span>
+              </label>
+            )}
 
             {status && (
-              <p className="login-status" role="status">
+              <p className="mk-login-status" role="status" aria-live="polite">
                 {status}
               </p>
             )}
 
-            <button className="login-submit" type="submit">
-              Sign in
+            <button className="mk-login-submit" type="submit">
+              <span>
+                {isForgot
+                  ? "Request password reset"
+                  : isSignUp
+                    ? "Create account"
+                    : "Enter the festival"}
+              </span>
+              <ArrowRight size={18} aria-hidden="true" />
             </button>
           </form>
 
-          <p className="login-signup">
-            New to PECFEST? <a href="#create-account">Create an account</a>
+          {/* Switch between sign-in and sign-up with animated content. */}
+          <p className="mk-login-signup">
+            {isForgot ? (
+              <>
+                Remember your password?{" "}
+                <a href="#signin" onClick={handleBackToSignIn}>
+                  Back to sign in
+                </a>
+              </>
+            ) : isSignUp ? (
+              <>
+                Already a member?{" "}
+                <a href="#signin" onClick={handleBackToSignIn}>
+                  Sign in
+                </a>
+              </>
+            ) : (
+              <>
+                New to PECFEST?{" "}
+                <a href="#signup" onClick={handleCreateAccount}>
+                  Create an account
+                </a>
+              </>
+            )}
           </p>
 
-          <p className="login-privacy">
-            By continuing, you agree to the festival terms and privacy policy.
-          </p>
+          <div className="mk-login-card-bottom">
+            <span className="mk-login-bottom-line" />
+            <span className="mk-login-footer-symbol">✳</span>
+            <p>ONE FESTIVAL. INFINITE POSSIBILITIES.</p>
+            <span className="mk-login-bottom-line" />
+          </div>
         </div>
       </section>
     </main>
