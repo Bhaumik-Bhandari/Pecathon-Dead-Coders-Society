@@ -47,7 +47,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
         } md:translate-x-0`}
       >
         {/* Brand */}
-        <div className="flex h-[78px] items-center justify-between border-b border-white/10 px-5">
+        <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-white/10 px-5">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#E9B15D] to-[#D94C42] text-white shadow-lg shadow-black/20">
               <Sparkles size={20} />
