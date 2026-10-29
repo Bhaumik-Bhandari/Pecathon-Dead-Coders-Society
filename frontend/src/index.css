@@ -1209,3 +1209,1056 @@ a {
     transition: none;
   }
 }
+
+/* =========================================================
+   SPIRIT LENS — CINEMATIC CELESTIAL EXPEDITION
+   Append to the bottom of frontend/src/index.css
+========================================================= */
+
+.spirit-cinematic {
+  --spirit-gold: #e9b15d;
+  --spirit-ivory: #f2e9db;
+  --spirit-muted: #a5adbd;
+  --spirit-border: rgba(226, 196, 148, 0.16);
+
+  width: 100%;
+  overflow: hidden;
+  color: var(--spirit-ivory);
+  border: 1px solid var(--spirit-border);
+  border-radius: 22px;
+  background: #080e19;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+}
+
+/* Main 3D scene */
+
+.spirit-cinema-frame {
+  position: relative;
+  width: 100%;
+  height: 610px;
+  min-height: 510px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      ellipse at 70% 45%,
+      rgba(39, 61, 105, 0.24),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 20% 90%,
+      rgba(154, 94, 65, 0.12),
+      transparent 40%
+    ),
+    #050914;
+}
+
+.spirit-cinema-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.spirit-cinema-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 9, 20, 0.94) 0%,
+      rgba(5, 9, 20, 0.78) 30%,
+      rgba(5, 9, 20, 0.12) 68%,
+      rgba(5, 9, 20, 0.18) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(5, 9, 20, 0.72),
+      transparent 24%,
+      transparent 78%,
+      rgba(5, 9, 20, 0.38)
+    );
+}
+
+/* Top HUD */
+
+.spirit-cinema-hud {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 30px;
+}
+
+.spirit-cinema-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spirit-cinema-brand-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: var(--spirit-gold);
+  border: 1px solid rgba(233, 177, 93, 0.28);
+  border-radius: 13px;
+  background: rgba(233, 177, 93, 0.08);
+}
+
+.spirit-cinema-brand strong,
+.spirit-cinema-brand > div > span {
+  display: block;
+}
+
+.spirit-cinema-brand strong {
+  color: var(--spirit-ivory);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+
+.spirit-cinema-brand > div > span {
+  margin-top: 4px;
+  color: #8490a5;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.spirit-cinema-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #c5cbd5;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.spirit-cinema-status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: #d6b16f;
+  box-shadow: 0 0 12px rgba(214, 177, 111, 0.8);
+  animation: spirit-status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes spirit-status-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+    box-shadow: 0 0 5px rgba(214, 177, 111, 0.4);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 14px rgba(214, 177, 111, 0.9);
+  }
+}
+
+/* Launch and orbit text */
+
+.spirit-cinema-launch-copy,
+.spirit-cinema-orbit-copy {
+  position: absolute;
+  top: 27%;
+  left: 5%;
+  z-index: 2;
+  width: min(340px, 42%);
+  pointer-events: none;
+}
+
+.spirit-cinema-orbit-copy {
+  opacity: 0;
+  animation: spirit-orbit-copy 0.9s ease 6.5s forwards;
+}
+
+.spirit-cinematic[data-phase="orbit"] .spirit-cinema-launch-copy {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.spirit-cinematic[data-phase="orbit"] .spirit-cinema-orbit-copy {
+  opacity: 1;
+  animation: none;
+}
+
+@keyframes spirit-orbit-copy {
+  to {
+    opacity: 1;
+  }
+}
+
+.spirit-cinema-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--spirit-gold);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.spirit-cinema-launch-copy h2,
+.spirit-cinema-orbit-copy h2 {
+  margin-top: 18px;
+  color: var(--spirit-ivory);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(36px, 4.5vw, 59px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.spirit-cinema-launch-copy h2 em,
+.spirit-cinema-orbit-copy h2 em {
+  color: #e8bc7b;
+  font-weight: 400;
+}
+
+.spirit-cinema-launch-copy > p:not(.spirit-cinema-eyebrow),
+.spirit-cinema-orbit-copy > p:not(.spirit-cinema-eyebrow) {
+  margin-top: 17px;
+  color: #aab4c4;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.spirit-cinema-telemetry {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 28px;
+  color: #8793a8;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+.spirit-cinema-telemetry strong {
+  color: #e9d3ad;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+.spirit-cinema-telemetry-separator {
+  width: 1px;
+  height: 14px;
+  margin: 0 5px;
+  background: rgba(233, 177, 93, 0.3);
+}
+
+/* Launch/replay controls */
+
+.spirit-cinema-control {
+  position: absolute;
+  right: 28px;
+  bottom: 65px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 15px;
+  color: #e9d7b9;
+  font-size: 11px;
+  border: 1px solid rgba(233, 177, 93, 0.3);
+  border-radius: 9px;
+  background: rgba(9, 16, 29, 0.78);
+  backdrop-filter: blur(12px);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.spirit-cinema-control:hover {
+  color: white;
+  border-color: var(--spirit-gold);
+  background: rgba(233, 177, 93, 0.13);
+  transform: translateY(-2px);
+}
+
+.spirit-cinema-control:focus-visible,
+.spirit-cinema-planet-button:focus-visible,
+.spirit-cinema-continue:focus-visible {
+  outline: 2px solid var(--spirit-gold);
+  outline-offset: 4px;
+}
+
+/* Bottom telemetry */
+
+.spirit-cinema-launch-status {
+  position: absolute;
+  right: 30px;
+  bottom: 25px;
+  left: 30px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #9ca8ba;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+}
+
+.spirit-cinema-progress {
+  width: 110px;
+  height: 2px;
+  margin-left: auto;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.spirit-cinema-progress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--spirit-gold);
+  animation: spirit-progress 7s linear forwards;
+}
+
+.spirit-cinematic[data-phase="orbit"] .spirit-cinema-progress > span {
+  transform: scaleX(1);
+  animation: none;
+}
+
+@keyframes spirit-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* WebGL fallback */
+
+.spirit-cinema-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 25px;
+  color: #e9d7b9;
+  text-align: center;
+  background: rgba(5, 9, 20, 0.92);
+}
+
+.spirit-cinema-fallback svg {
+  color: var(--spirit-gold);
+}
+
+.spirit-cinema-fallback strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+}
+
+.spirit-cinema-fallback span {
+  max-width: 300px;
+  color: #a5adbd;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Planet destination section */
+
+.spirit-cinema-destinations {
+  position: relative;
+  z-index: 2;
+  padding: 25px 30px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(
+      110deg,
+      rgba(233, 177, 93, 0.045),
+      transparent 48%
+    ),
+    #0d1725;
+}
+
+.spirit-cinema-destination-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.spirit-cinema-destination-heading p {
+  color: var(--spirit-gold);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.spirit-cinema-destination-heading > div > span {
+  display: block;
+  margin-top: 7px;
+  color: #929eb0;
+  font-size: 11px;
+}
+
+.spirit-cinema-scale-note {
+  color: #66758a;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+/* Planet buttons */
+
+.spirit-cinema-planet-nav {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.spirit-cinema-planet-button {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 14px 13px;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.025);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.spirit-cinema-planet-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(233, 177, 93, 0.38);
+  background: rgba(233, 177, 93, 0.055);
+}
+
+.spirit-cinema-planet-button.is-active {
+  border-color: rgba(233, 177, 93, 0.55);
+  background: rgba(233, 177, 93, 0.09);
+  box-shadow: inset 0 0 20px rgba(233, 177, 93, 0.035);
+}
+
+.spirit-cinema-planet-number {
+  color: #77869b;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.spirit-cinema-planet-name {
+  overflow: hidden;
+  max-width: 100%;
+  color: #e8e4dc;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spirit-cinema-planet-role {
+  color: #8b98aa;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+/* Selected planet information */
+
+.spirit-cinema-selected-world {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.spirit-cinema-selected-world > div > p {
+  color: var(--spirit-gold);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.spirit-cinema-selected-world h3 {
+  margin-top: 5px;
+  color: var(--spirit-ivory);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.spirit-cinema-selected-world > div > span {
+  display: block;
+  max-width: 510px;
+  margin-top: 5px;
+  color: #929eb0;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.spirit-cinema-continue {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  color: #111827;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid #e9b15d;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #f1cb8c, #dba653);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.spirit-cinema-continue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 22px rgba(233, 177, 93, 0.2);
+}
+
+/* Attribution */
+
+.spirit-cinema-attribution {
+  padding: 0 30px 19px;
+  color: #748196;
+  font-size: 9px;
+  line-height: 1.7;
+  background: #0d1725;
+}
+
+.spirit-cinema-attribution a {
+  color: #d6b16f;
+  text-decoration: underline;
+  text-decoration-color: rgba(214, 177, 111, 0.4);
+  text-underline-offset: 3px;
+}
+
+.spirit-cinema-attribution a:hover {
+  color: #f4d5a1;
+}
+
+/* Responsive layout */
+
+@media (max-width: 760px) {
+  .spirit-cinema-frame {
+    height: 570px;
+    min-height: 500px;
+  }
+
+  .spirit-cinema-hud {
+    padding: 19px;
+  }
+
+  .spirit-cinema-launch-copy,
+  .spirit-cinema-orbit-copy {
+    top: 25%;
+    left: 6%;
+    width: 44%;
+  }
+
+  .spirit-cinema-launch-copy h2,
+  .spirit-cinema-orbit-copy h2 {
+    font-size: clamp(31px, 6vw, 44px);
+  }
+
+  .spirit-cinema-launch-copy > p:not(.spirit-cinema-eyebrow),
+  .spirit-cinema-orbit-copy > p:not(.spirit-cinema-eyebrow) {
+    font-size: 11px;
+  }
+
+  .spirit-cinema-destinations {
+    padding: 22px 18px;
+  }
+
+  .spirit-cinema-planet-nav {
+    gap: 6px;
+  }
+
+  .spirit-cinema-planet-button {
+    padding: 11px 8px;
+  }
+
+  .spirit-cinema-planet-name {
+    font-size: 12px;
+  }
+
+  .spirit-cinema-planet-role {
+    font-size: 7px;
+  }
+
+  .spirit-cinema-attribution {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .spirit-cinema-frame {
+    height: 550px;
+    min-height: 490px;
+  }
+
+  .spirit-cinema-vignette {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(5, 9, 20, 0.8),
+        rgba(5, 9, 20, 0.18)
+      ),
+      linear-gradient(
+        0deg,
+        rgba(5, 9, 20, 0.75),
+        transparent 45%
+      );
+  }
+
+  .spirit-cinema-hud {
+    padding: 16px;
+  }
+
+  .spirit-cinema-brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .spirit-cinema-brand strong {
+    font-size: 10px;
+  }
+
+  .spirit-cinema-brand > div > span {
+    font-size: 7px;
+  }
+
+  .spirit-cinema-status {
+    gap: 6px;
+    font-size: 8px;
+  }
+
+  .spirit-cinema-launch-copy,
+  .spirit-cinema-orbit-copy {
+    top: 23%;
+    left: 6%;
+    width: 78%;
+  }
+
+  .spirit-cinema-launch-copy h2,
+  .spirit-cinema-orbit-copy h2 {
+    font-size: 39px;
+  }
+
+  .spirit-cinema-launch-copy > p:not(.spirit-cinema-eyebrow),
+  .spirit-cinema-orbit-copy > p:not(.spirit-cinema-eyebrow) {
+    font-size: 11px;
+  }
+
+  .spirit-cinema-telemetry {
+    margin-top: 18px;
+  }
+
+  .spirit-cinema-control {
+    right: 16px;
+    bottom: 62px;
+    padding: 9px 11px;
+    font-size: 9px;
+  }
+
+  .spirit-cinema-launch-status {
+    right: 16px;
+    bottom: 20px;
+    left: 16px;
+    font-size: 7px;
+  }
+
+  .spirit-cinema-progress {
+    width: 65px;
+  }
+
+  .spirit-cinema-destination-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .spirit-cinema-scale-note {
+    display: none;
+  }
+
+  .spirit-cinema-planet-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .spirit-cinema-planet-button:last-child {
+    grid-column: span 2;
+  }
+
+  .spirit-cinema-planet-name {
+    font-size: 14px;
+  }
+
+  .spirit-cinema-selected-world {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .spirit-cinema-continue {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spirit-cinema-status-dot {
+    animation: none;
+  }
+
+  .spirit-cinema-control,
+  .spirit-cinema-planet-button,
+  .spirit-cinema-continue {
+    transition: none;
+  }
+
+  .spirit-cinema-progress > span {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
+/* Spirit Lens lightweight CSS scene */
+
+.spirit-lite-frame {
+  background:
+    radial-gradient(ellipse at 72% 46%, #172c4d 0%, transparent 38%),
+    radial-gradient(ellipse at 80% 85%, #58352d 0%, transparent 36%),
+    #050914;
+}
+
+.spirit-lite-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    radial-gradient(2px 2px at 10% 24%, #fff5dc 50%, transparent 100%),
+    radial-gradient(1px 1px at 33% 68%, #c8dcff 50%, transparent 100%),
+    radial-gradient(2px 2px at 58% 18%, #fff5dc 50%, transparent 100%),
+    radial-gradient(1px 1px at 77% 32%, #d6e5ff 50%, transparent 100%),
+    radial-gradient(2px 2px at 90% 70%, #f9d7a1 50%, transparent 100%),
+    radial-gradient(1px 1px at 47% 43%, #fff 50%, transparent 100%);
+  background-size: 230px 190px, 170px 210px, 260px 230px,
+    190px 180px, 280px 240px, 150px 160px;
+  animation: spirit-star-drift 40s linear infinite;
+}
+
+.spirit-lite-nebula {
+  position: absolute;
+  z-index: 0;
+  top: 12%;
+  right: 3%;
+  width: 48%;
+  height: 65%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(81, 106, 179, 0.19),
+    rgba(121, 73, 111, 0.08) 42%,
+    transparent 72%
+  );
+  filter: blur(12px);
+}
+
+.spirit-lite-horizon {
+  position: absolute;
+  z-index: 0;
+  right: -8%;
+  bottom: -49%;
+  width: 76%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(126, 183, 255, 0.28);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 24%, #3977b5, #102747 54%, #07101f 74%);
+  box-shadow: 0 -15px 60px rgba(74, 147, 235, 0.22);
+}
+
+.spirit-lite-earth {
+  position: absolute;
+  z-index: 1;
+  right: 9%;
+  bottom: -13%;
+  width: clamp(180px, 27vw, 310px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgba(137, 198, 255, 0.6);
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 29% 28%, #75c9e9, transparent 18%),
+    radial-gradient(ellipse at 53% 53%, #5eaa75 0 10%, transparent 11%),
+    radial-gradient(ellipse at 35% 68%, #387c63 0 13%, transparent 14%),
+    radial-gradient(ellipse at 68% 36%, #76b87c 0 12%, transparent 13%),
+    radial-gradient(circle at 32% 27%, #2d87c5, #10406e 57%, #07152e 78%);
+  box-shadow:
+    inset -22px -8px 45px rgba(0, 0, 0, 0.7),
+    0 0 35px rgba(76, 159, 224, 0.2);
+  transition: transform 1s ease;
+}
+
+.spirit-lite-earth span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(110deg, transparent 35%, rgba(4, 8, 19, 0.72));
+}
+
+.spirit-lite-moon,
+.spirit-lite-mars,
+.spirit-lite-jupiter,
+.spirit-lite-saturn {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  box-shadow: inset -9px -5px 15px rgba(0, 0, 0, 0.55);
+  animation: spirit-float 6s ease-in-out infinite;
+}
+
+.spirit-lite-moon {
+  top: 24%;
+  right: 30%;
+  width: 35px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 30% 25%, #dce2e9, #8d9aad 65%, #596578);
+}
+
+.spirit-lite-mars {
+  top: 44%;
+  right: 17%;
+  width: 46px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 30% 25%, #f1a17a, #b64e3d 64%, #542a32);
+  animation-delay: -2s;
+}
+
+.spirit-lite-jupiter {
+  top: 23%;
+  right: 6%;
+  width: 73px;
+  aspect-ratio: 1;
+  background: repeating-linear-gradient(
+    0deg,
+    #b88e6e 0 7px,
+    #e3c9a8 8px 13px,
+    #8f6956 14px 18px
+  );
+  box-shadow: inset -12px -5px 16px rgba(0, 0, 0, 0.6);
+  animation-delay: -3s;
+}
+
+.spirit-lite-saturn {
+  top: 52%;
+  right: 4%;
+  width: 60px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 30% 30%, #f0d7a9, #a88b66 70%, #655443);
+  animation-delay: -1s;
+}
+
+.spirit-lite-saturn span {
+  position: absolute;
+  top: 36%;
+  left: -29%;
+  width: 158%;
+  height: 30%;
+  transform: rotate(-22deg);
+  border: 5px solid rgba(221, 192, 145, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(221, 192, 145, 0.22);
+}
+
+.spirit-lite-orbit {
+  position: absolute;
+  z-index: 1;
+  top: 19%;
+  right: -2%;
+  width: 59%;
+  height: 65%;
+  transform: rotate(-18deg);
+  border: 1px solid rgba(233, 177, 93, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 0 22px rgba(233, 177, 93, 0.04);
+}
+
+.spirit-lite-rocket {
+  position: absolute;
+  z-index: 4;
+  top: 52%;
+  left: 59%;
+  display: grid;
+  width: 55px;
+  height: 70px;
+  place-items: center;
+  color: #fff0d7;
+  filter: drop-shadow(0 0 10px rgba(233, 177, 93, 0.55));
+  transform: rotate(42deg);
+  animation: spirit-rocket-launch 6.5s cubic-bezier(0.45, 0, 0.6, 1) forwards;
+}
+
+.spirit-lite-flame {
+  position: absolute;
+  top: 70%;
+  left: 43%;
+  width: 11px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(#fff4c2, #ffad51 48%, transparent);
+  filter: blur(2px);
+  transform: rotate(-2deg);
+  transform-origin: top center;
+  animation: spirit-flame-flicker 0.16s ease-in-out infinite alternate;
+}
+
+.spirit-cinematic[data-phase="orbit"] .spirit-lite-rocket {
+  top: 44%;
+  left: 74%;
+  transform: rotate(70deg) scale(0.72);
+  animation: spirit-rocket-orbit 5s ease-in-out infinite alternate;
+}
+
+.spirit-cinematic[data-phase="orbit"] .spirit-lite-earth {
+  transform: scale(1.03);
+}
+
+@keyframes spirit-rocket-launch {
+  0% {
+    top: 84%;
+    left: 49%;
+    opacity: 0;
+    transform: rotate(0deg) scale(0.65);
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    top: 49%;
+    left: 60%;
+    transform: rotate(32deg) scale(0.9);
+  }
+  100% {
+    top: 31%;
+    left: 77%;
+    opacity: 1;
+    transform: rotate(55deg) scale(0.7);
+  }
+}
+
+@keyframes spirit-rocket-orbit {
+  from {
+    margin-top: -8px;
+    margin-left: -10px;
+  }
+  to {
+    margin-top: 12px;
+    margin-left: 13px;
+  }
+}
+
+@keyframes spirit-flame-flicker {
+  from {
+    opacity: 0.6;
+    scale: 0.8 0.85;
+  }
+  to {
+    opacity: 1;
+    scale: 1.15 1.15;
+  }
+}
+
+@keyframes spirit-float {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -9px;
+  }
+}
+
+@keyframes spirit-star-drift {
+  from {
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: 230px 100px, -170px 150px,
+      260px -100px, -190px 90px, 280px 140px, 150px -80px;
+  }
+}
+
+@media (max-width: 520px) {
+  .spirit-lite-earth {
+    right: -8%;
+    bottom: -2%;
+    width: 220px;
+  }
+
+  .spirit-lite-moon {
+    right: 42%;
+    top: 33%;
+    width: 25px;
+  }
+
+  .spirit-lite-mars {
+    right: 17%;
+    top: 43%;
+    width: 32px;
+  }
+
+  .spirit-lite-jupiter {
+    right: 4%;
+    top: 27%;
+    width: 48px;
+  }
+
+  .spirit-lite-saturn {
+    right: 2%;
+    top: 58%;
+    width: 40px;
+  }
+
+  .spirit-lite-rocket {
+    left: 58%;
+  }
+
+  .spirit-lite-orbit {
+    right: -17%;
+    width: 80%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spirit-lite-stars,
+  .spirit-lite-rocket,
+  .spirit-lite-moon,
+  .spirit-lite-mars,
+  .spirit-lite-jupiter,
+  .spirit-lite-saturn,
+  .spirit-lite-flame {
+    animation: none !important;
+  }
+}
+
