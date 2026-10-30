@@ -1,4 +1,8 @@
 import MoonPhaseCard from "./MoonPhaseCard.jsx";
+import SkySearch from "./SkySearch.jsx";
+import SurveySelector from "./SurveySelector.jsx";
+import SkyImageViewer from "./SkyImageViewer.jsx";
+import { fetchSkyImage } from "../../../services/skyViewApi.js";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowDownRight,
@@ -385,6 +389,39 @@ export default function CelestialScroll({ onPlanNight }) {
   const [savedIds, setSavedIds] = useState(readWatchlist);
   const [expandedId, setExpandedId] = useState(null);
   const [notice, setNotice] = useState("");
+
+  // NASA SkyView observatory state
+  const [skyPosition, setSkyPosition] = useState("M31");
+  const [skySurvey, setSkySurvey] = useState("DSS");
+  const [skyImage, setSkyImage] = useState(null);
+  const [skyLoading, setSkyLoading] = useState(false);
+  const [skyError, setSkyError] = useState("");
+
+  async function handleSkySearch() {
+    const trimmedPosition = skyPosition.trim();
+
+    if (!trimmedPosition) {
+      setSkyError("Enter an astronomical object or coordinates.");
+      setSkyImage(null);
+      return;
+    }
+
+    setSkyLoading(true);
+    setSkyError("");
+    setSkyImage(null);
+
+    try {
+      const result = await fetchSkyImage(trimmedPosition, skySurvey);
+      setSkyImage(result);
+    } catch (error) {
+      console.error("SkyView search failed:", error);
+      setSkyError(
+        error.message || "Unable to retrieve astronomical imagery."
+      );
+    } finally {
+      setSkyLoading(false);
+    }
+  }
 
   useEffect(() => {
     try {
@@ -808,6 +845,50 @@ export default function CelestialScroll({ onPlanNight }) {
             }}
           />
         </div>
+
+        {/* NASA SKYVIEW OBSERVATORY */}
+        <section
+          id="sky-observatory"
+          className="mt-12 scroll-mt-8 border-t border-white/[0.08] pt-10 sm:mt-16 sm:pt-14"
+        >
+          <div className="celestial-reveal mb-7">
+            <div className="mb-3 flex items-center gap-2 text-[#D6B774]">
+              <Telescope size={16} />
+              <span className="text-[9px] font-semibold uppercase tracking-[0.23em]">
+                Explore the universe
+              </span>
+            </div>
+
+            <h2 className="font-serif text-3xl tracking-tight text-[#F2E6D2] sm:text-4xl">
+              The Sky Observatory.
+            </h2>
+
+            <p className="mt-3 max-w-xl text-sm leading-6 text-[#969BA5]">
+              Explore galaxies, nebulae, and other astronomical objects through
+              NASA SkyView's multi-wavelength survey imagery.
+            </p>
+          </div>
+
+          <div className="space-y-5">
+            <SkySearch
+              position={skyPosition}
+              onChange={setSkyPosition}
+              onSearch={handleSkySearch}
+              loading={skyLoading}
+            />
+
+            <SurveySelector
+              survey={skySurvey}
+              onChange={setSkySurvey}
+            />
+
+            <SkyImageViewer
+              image={skyImage}
+              loading={skyLoading}
+              error={skyError}
+            />
+          </div>
+        </section>
 
         <section id="celestial-events" className="scroll-mt-8 pt-12 sm:pt-16">
           <div className="celestial-reveal flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">

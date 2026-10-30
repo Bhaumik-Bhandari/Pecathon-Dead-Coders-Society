@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import watchtowerRoutes from "./routes/watchtowerRoutes.js";
 import spiritLensRoutes from "./routes/spiritLensRoutes.js";
+import skyViewRoutes from "./routes/skyViewRoutes.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/watchtower", watchtowerRoutes);
 app.use("/api/spirit-lens", spiritLensRoutes);
+app.use("/api/skyview", skyViewRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
@@ -30,5 +32,6 @@ app.use((req, res) => {
     error: "Route not found",
   });
 });
+
 
 export default app;
