@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import {
   Activity,
+  Award,
   Blocks,
   LayoutDashboard,
   Settings2,
@@ -14,6 +15,7 @@ const navigationGroups = [
     heading: "Workspace",
     links: [
       { label: "Overview", to: "/", icon: LayoutDashboard, end: true },
+      { label: "The Dojo", to: "/dojo", icon: Award },
       { label: "Modules", to: "/modules", icon: Blocks },
       { label: "Activity", to: "/activity", icon: Activity },
     ],

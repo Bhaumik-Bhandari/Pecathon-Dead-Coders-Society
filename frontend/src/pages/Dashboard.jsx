@@ -11,6 +11,7 @@ import {
   Moon,
   Sparkles,
 } from "lucide-react";
+import HonorPointsPanel from "../components/features/honor/HonorPointsPanel";
 
 function WeatherMetric({ icon: Icon, label, note }) {
   return (
@@ -376,6 +377,21 @@ export default function Dashboard() {
           />
         </div>
       </section>
+      {/* Honest data status */}
+      {/* Honor Points — The Honor Dojo */}
+      <section
+        id="honor-dojo"
+        className="scroll-mt-24 space-y-4"
+      >
+        <SectionHeading
+          eyebrow="04 · Earn"
+          title="The Honor Dojo"
+          description="Record celestial observations, complete missions and build your Honor."
+        />
+
+        <HonorPointsPanel />
+      </section>
+      <footer className="flex items-start gap-3 rounded-xl border border-white/[0.07] bg-[#101B2A]/70 px-4 py-3.5"></footer>
 
       {/* Honest data status */}
       <footer className="flex items-start gap-3 rounded-xl border border-white/[0.07] bg-[#101B2A]/70 px-4 py-3.5">

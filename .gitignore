@@ -21,3 +21,11 @@ pnpm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+.env
+.env.*
+!.env.example
+
+backend/data/*.sqlite
+backend/data/*.sqlite-shm
+backend/data/*.sqlite-wal

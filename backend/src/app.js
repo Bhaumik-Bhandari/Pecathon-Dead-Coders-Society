@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import watchtowerRoutes from "./routes/watchtowerRoutes.js";
+import honorRoutes from "./routes/honorRoutes.cjs";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/watchtower", watchtowerRoutes);
+app.use("/api/honor", honorRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
