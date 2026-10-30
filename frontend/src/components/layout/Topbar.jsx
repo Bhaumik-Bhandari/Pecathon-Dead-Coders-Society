@@ -19,6 +19,12 @@ const searchItems = [
     keywords: "home dashboard main",
   },
   {
+    title: "The Dojo",
+    description: "View your honor points, rank, and achievements",
+    path: "/dojo",
+    keywords: "dojo honor points rank badges achievements missions",
+  },
+  {
     title: "Modules",
     description: "Explore your modules",
     path: "/modules",

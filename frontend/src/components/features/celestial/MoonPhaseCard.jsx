@@ -379,9 +379,9 @@ export default function MoonPhaseCard({
 }) {
   const moonId = useId();
 
-  const [selectedDate, setSelectedDate] = useState(() =>
-    normalizeDate(initialDate)
-  );
+const [selectedDate, setSelectedDate] = useState(() =>
+  normalizeDate(initialDate)
+);
 
   const moon = useMemo(
     () => calculateMoon(selectedDate),

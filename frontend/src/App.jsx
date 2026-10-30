@@ -15,7 +15,7 @@ import CelestialScroll from "./pages/CelestialScroll";
 import SpiritLens from "./pages/SpiritLens";
 // Main application layout
 import AppLayout from "./components/layout/AppLayout";
-
+import Dojo from "./pages/Dojo";
 // Application pages
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
@@ -231,6 +231,12 @@ export default function App() {
           path="settings"
           element={<PlaceholderPage page="Settings" />}
         />
+
+        <Route
+          path="dojo"
+          element={<Dojo />}
+        />
+        
       </Route>
 
       {/* Redirect unknown routes to the dashboard */}
